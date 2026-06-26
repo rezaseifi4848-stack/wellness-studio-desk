@@ -1,0 +1,21 @@
+{
+  "title": "لینک‌های کاربردی",
+  "description": "لینک‌هایی برای الهام، یادگیری و برنامه‌ریزی محتوا.",
+  "items": [
+    {
+      "title": "Canva",
+      "source": "برای ساخت قالب‌های ساده استوری، پست و برنامه کلاس.",
+      "url": "https://www.canva.com/"
+    },
+    {
+      "title": "Meta Business Suite",
+      "source": "برای زمان‌بندی و مرور اینکه محتواهات توی اینستاگرام و فیسبوک چطور پیش رفتن.",
+      "url": "https://business.facebook.com/"
+    },
+    {
+      "title": "Insight Timer",
+      "source": "برای الهام گرفتن از دسته‌بندی‌های مدیتیشن و مدل توضیح تمرین.",
+      "url": "https://insighttimer.com/"
+    }
+  ]
+}

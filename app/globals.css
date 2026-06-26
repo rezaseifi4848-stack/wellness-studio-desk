@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f8f6f1;
+  --foreground: #403f37;
+  --warm-white: #f8f6f1;
+  --cream: #f4eedb;
+  --sage: #a8b8a0;
+  --sage-soft: #dfe7d8;
+  --olive: #c2c8aa;
+  --olive-deep: #6d755f;
+  --lavender: #d8d0e8;
+  --gold: #d7c09a;
+  --gold-soft: #eee0c5;
+  --line: #e6ddc9;
+  --ink-soft: #6e6a5e;
+  --white: #fffdf8;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Vazirmatn", "IRANSans", "Segoe UI", Tahoma, Arial, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+a,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.soft-panel {
+  border: 1px solid rgba(230, 221, 201, 0.62);
+  background: rgba(255, 253, 248, 0.78);
+  border-radius: 34px;
+  box-shadow: 0 32px 90px rgba(91, 80, 56, 0.1);
+  backdrop-filter: blur(20px);
+}
+
+.calm-focus:focus-visible {
+  outline: 3px solid rgba(215, 192, 154, 0.62);
+  outline-offset: 3px;
+}
+
+.premium-gradient {
+  background:
+    radial-gradient(circle at 10% 8%, rgba(216, 208, 232, 0.36), transparent 28%),
+    radial-gradient(circle at 86% 16%, rgba(168, 184, 160, 0.28), transparent 32%),
+    linear-gradient(135deg, #f8f6f1 0%, #fffdf8 38%, #f4eedb 72%, #eef2e8 100%);
+}
+
+.gold-line {
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  height: 1px;
+}
+
+::selection {
+  background: rgba(215, 192, 154, 0.45);
+}
+
+.studio-button {
+  border-radius: 999px;
+  box-shadow: 0 16px 38px rgba(109, 117, 95, 0.16);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease;
+}
+
+.studio-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 22px 52px rgba(109, 117, 95, 0.2);
+}
+
+.cream-to-white {
+  background: linear-gradient(135deg, rgba(244, 238, 219, 0.9), rgba(255, 253, 248, 0.92));
+}
+
+.sage-to-cream {
+  background: linear-gradient(135deg, rgba(223, 231, 216, 0.92), rgba(244, 238, 219, 0.78));
+}
+
+.lavender-to-white {
+  background: linear-gradient(135deg, rgba(216, 208, 232, 0.72), rgba(255, 253, 248, 0.92));
+}

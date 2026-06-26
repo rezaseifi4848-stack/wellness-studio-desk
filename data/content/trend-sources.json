@@ -1,0 +1,24 @@
+{
+  "title": "منابع ترند و ایده",
+  "description": "منبع‌هایی برای مرور دستی. اپ فعلا این‌ها رو خودکار نمی‌خونه.",
+  "items": [
+    {
+      "title": "Instagram Explore و Reels",
+      "source": "برای دیدن مدل‌های رایج شروع ویدئو، کپشن و تعامل. قبل از استفاده، یه دور با لحن آروم برند هماهنگش کن.",
+      "url": "https://www.instagram.com/",
+      "status": "مرور دستی"
+    },
+    {
+      "title": "Google Trends",
+      "source": "برای اینکه ببینی مردم بیشتر دنبال چه موضوع‌هایی مثل meditation، yoga for beginners و mindfulness هستن.",
+      "url": "https://trends.google.com/",
+      "status": "مرور دستی"
+    },
+    {
+      "title": "YouTube Shorts",
+      "source": "برای دیدن ساختار ویدئوهای کوتاه آموزشی و شروع‌های جذاب.",
+      "url": "https://www.youtube.com/",
+      "status": "مرور دستی"
+    }
+  ]
+}
