@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: yoga-ba-saeedeh
+    env: node
+    plan: free
+    buildCommand: pnpm install --frozen-lockfile && pnpm run build
+    startCommand: pnpm run start
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
