@@ -1,24 +1,15 @@
 import { NextResponse } from "next/server";
-import {
-  internalTrendNotice,
-  modernWellnessStyles,
-} from "@/src/data/modernWellnessStyles";
+import { getLiveSearchSignals } from "@/src/lib/liveSearchEngine";
+import { modernWellnessStyles } from "@/src/data/modernWellnessStyles";
 
 export async function GET() {
-  const searchProviders = {
-    tavily: Boolean(process.env.TAVILY_API_KEY),
-    brave: Boolean(process.env.BRAVE_SEARCH_API_KEY),
-    serpapi: Boolean(process.env.SERPAPI_KEY),
-  };
-  const active = Object.values(searchProviders).some(Boolean);
+  const search = await getLiveSearchSignals("meditation yoga Persian wellness creator Bale Instagram trends");
 
   return NextResponse.json({
-    active,
-    message: active
-      ? "جستجوی زنده فعال است؛ ترندها فقط به‌عنوان سیگنال بررسی می‌شوند و خروجی فارسی به‌صورت اصل ساخته می‌شود."
-      : "جستجوی زنده فعال نیست؛ پیشنهادها از بانک حرفه‌ای داخلی ساخته شده‌اند.",
-    fallbackMessage: internalTrendNotice,
-    providers: searchProviders,
+    active: search.active,
+    message: search.message,
+    providers: search.providers,
+    signals: search.signals,
     styles: modernWellnessStyles,
   });
 }

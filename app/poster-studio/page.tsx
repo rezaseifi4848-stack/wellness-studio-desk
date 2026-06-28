@@ -1,36 +1,26 @@
 import { AppShell } from "@/components/AppShell";
+import { LiveEngineClient } from "@/components/LiveEngineClient";
 import { PageSection } from "@/components/PageSection";
-import { PosterTemplatePreview } from "@/components/PosterTemplatePreview";
+import { PosterVisualCard } from "@/components/PosterVisualCard";
 import { SectionCard } from "@/components/ui/SectionCard";
 import { SafetyNotice } from "@/components/ui/SafetyNotice";
-import { posterCopyEngine } from "@/src/lib/posterCopyEngine";
-import { posterStyles } from "@/src/data/posterTemplates";
 
 export default function PosterStudioPage() {
-  const posters = posterCopyEngine({ day: 1, style: "مشکی طلایی لوکس" });
-
   return (
     <AppShell>
       <PageSection
-        eyebrow="Poster Studio"
+        eyebrow="Live Poster Studio"
         title="استودیو پوستر سعیده"
-        description="پوسترهای پرمیوم، قابل کپی و مناسب بله/استوری؛ الهام از فضای مشکی طلایی، اما کاملاً اصل و امن."
+        description="پوسترها دیگر فقط متن نیستند؛ preview واقعی، دانلود PNG و خروجی API-first دارند."
       >
-        <SectionCard title="تنظیمات سریع پوستر" tone="gold">
-          <div className="grid gap-3 text-base leading-8 text-[var(--ink-soft)] md:grid-cols-3">
-            <p><b>روز چالش:</b> ۱ تا ۳۰</p>
-            <p><b>موضوع:</b> آرامش، تنفس، شکرگزاری، بدن‌آگاهی</p>
-            <p><b>لحن:</b> زنانه، لطیف، حکیمانه، کوتاه</p>
-            <p><b>طول متن:</b> متن اصلی تا ۱۲ کلمه، زیرنویس تا ۱۸ کلمه</p>
-            <p><b>سبک طراحی:</b> {posterStyles.join("، ")}</p>
-            <p><b>مخاطب:</b> دنبال‌کننده خسته، تازه‌کار، علاقه‌مند به مدیتیشن</p>
+        <SectionCard title="پیش‌نمایش‌های واقعی پوستر" tone="gold">
+          <div className="grid gap-6 md:grid-cols-3">
+            <PosterVisualCard id="poster-black-gold" dayNumber={1} title="جمله تاکیدی روز" style="black-gold" />
+            <PosterVisualCard id="poster-cream-green" dayNumber={2} title="تنفس آگاهانه" style="cream-green" mainAffirmation="با هر بازدم، کمی نرم‌تر می‌شوم" />
+            <PosterVisualCard id="poster-night" dayNumber={3} title="مدیتیشن شب" style="night meditation" mainAffirmation="امشب با آرامش به بدنم گوش می‌دهم" />
           </div>
         </SectionCard>
-        <div className="grid gap-6">
-          {posters.map((poster) => (
-            <PosterTemplatePreview key={poster.title} poster={poster} />
-          ))}
-        </div>
+        <LiveEngineClient module="poster-studio" title="پوستر پرمیوم جدید بساز" outputType="poster-pack" posterStyle="مشکی طلایی لوکس، ماه و نیلوفر، قابل انتشار در بله" />
         <SafetyNotice />
       </PageSection>
     </AppShell>

@@ -1,81 +1,55 @@
 import { NextRequest, NextResponse } from "next/server";
-import { SmartContentEngine } from "@/src/lib/smartContentEngine";
-import type { SuggestionEngineKey } from "@/src/data/modernWellnessStyles";
+import { generateLiveContent } from "@/src/lib/liveAiEngine";
+import type { LiveGenerateRequest } from "@/src/lib/premiumPromptBuilder";
 
-const validEngines: SuggestionEngineKey[] = [
-  "dailyReels",
-  "captionStory",
-  "shortMeditation",
-  "classOpening",
-  "speakingPractice",
-  "weeklyPlans",
-  "audienceAttraction",
-  "softSales",
-  "meditationTeaching",
+const modules = [
+  "morning-studio",
+  "poster-studio",
+  "bale-channel",
+  "meditation-command-center",
+  "now-engine",
+  "engagement-engine",
+  "affirmation-challenge",
+  "reels",
+  "captions",
+  "comments",
+  "soft-sales",
+  "speaking-coach",
 ];
 
-function providerStatus() {
-  const searchActive = Boolean(
-    process.env.TAVILY_API_KEY ||
-      process.env.BRAVE_SEARCH_API_KEY ||
-      process.env.SERPAPI_KEY,
-  );
+function normalize(body: Record<string, unknown>): LiveGenerateRequest {
+  const moduleName = typeof body.module === "string" && modules.includes(body.module) ? body.module : "morning-studio";
 
   return {
-    aiActive: Boolean(process.env.OPENAI_API_KEY),
-    searchActive,
-    message: searchActive
-      ? "جستجوی زنده فعال است"
-      : "جستجوی زنده فعال نیست؛ پیشنهادها از بانک حرفه‌ای داخلی ساخته شده‌اند.",
+    module: moduleName,
+    channel: typeof body.channel === "string" ? body.channel : "@yoga_saeedeh",
+    outputType: typeof body.outputType === "string" ? body.outputType : "daily-package",
+    persona: typeof body.persona === "string" ? body.persona : "سعیده؛ مربی گرم، طبیعی و حرفه‌ای یوگا و مدیتیشن",
+    topic: typeof body.topic === "string" ? body.topic : undefined,
+    platform: typeof body.platform === "string" ? body.platform : "both",
+    contentGoal: typeof body.contentGoal === "string" ? body.contentGoal : "رشد برند و تولید محتوای آماده انتشار",
+    level: typeof body.level === "string" ? body.level : "premium",
+    freshness: typeof body.freshness === "string" ? body.freshness : "today",
+    meditationFocus: typeof body.meditationFocus === "string" ? body.meditationFocus : undefined,
+    posterStyle: typeof body.posterStyle === "string" ? body.posterStyle : undefined,
+    userSeedText: typeof body.userSeedText === "string" ? body.userSeedText : undefined,
+    improveAction: typeof body.improveAction === "string" ? body.improveAction : undefined,
   };
-}
-
-function normalizeEngine(value: unknown): SuggestionEngineKey {
-  if (typeof value === "string" && validEngines.includes(value as SuggestionEngineKey)) {
-    return value as SuggestionEngineKey;
-  }
-
-  return "dailyReels";
 }
 
 export async function POST(request: NextRequest) {
   let body: Record<string, unknown> = {};
-
   try {
     body = await request.json();
   } catch {
     body = {};
   }
 
-  const engine = normalizeEngine(body.engine);
-  const localResult = SmartContentEngine({
-    engine,
-    topic: typeof body.topic === "string" ? body.topic : undefined,
-    tone: typeof body.tone === "string" ? body.tone : undefined,
-  });
-
-  if (!process.env.OPENAI_API_KEY) {
-    return NextResponse.json({
-      source: "local-smart-content-engine",
-      status: providerStatus(),
-      ...localResult,
-    });
-  }
-
-  return NextResponse.json({
-    source: "openai-ready-local-fallback",
-    status: providerStatus(),
-    notice: "OPENAI_API_KEY تنظیم شده است؛ این endpoint برای پایداری فعلاً خروجی بانک حرفه‌ای داخلی را برمی‌گرداند و آماده اتصال تولید پویا است.",
-    suggestions: localResult.suggestions,
-  });
+  const result = await generateLiveContent(normalize(body));
+  return NextResponse.json(result);
 }
 
 export async function GET() {
-  const localResult = SmartContentEngine({ engine: "dailyReels" });
-
-  return NextResponse.json({
-    source: "local-smart-content-engine",
-    status: providerStatus(),
-    ...localResult,
-  });
+  const result = await generateLiveContent({ module: "morning-studio", channel: "@yoga_saeedeh" });
+  return NextResponse.json(result);
 }
