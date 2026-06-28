@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AppShell } from "@/components/AppShell";
+import { DailyCommandPanel } from "@/components/DailyCommandPanel";
 import { SmartContentEnginePanel } from "@/components/SmartContentEngine";
 import { TonightDeliveryPanel } from "@/components/TonightDeliveryPanel";
 import { SectionCard } from "@/components/ui/SectionCard";
@@ -116,6 +117,28 @@ export default function DashboardPage() {
         tone="gold"
       >
         <TonightDeliveryPanel />
+      </SectionCard>
+
+      <SectionCard
+        title="صبح سعیده"
+        description="بسته کامل امروز برای مدیتیشن، پوستر، ریلز، کپشن، بله، تمرین بیان و تعامل."
+        tone="sage"
+      >
+        <DailyCommandPanel />
+        <div className="flex flex-wrap gap-3">
+          {[
+            ["/morning-studio", "باز کردن صبح سعیده"],
+            ["/poster-studio", "استودیو پوستر"],
+            ["/bale-channel", "موتور کانال بله"],
+            ["/meditation-command-center", "مرکز مدیتیشن"],
+            ["/now-engine", "الان چی کار کنم؟"],
+            ["/engagement-engine", "کامنت و تعامل"],
+          ].map(([href, label]) => (
+            <Link className="studio-button bg-[var(--warm-white)] px-5 py-3 text-sm font-semibold text-[#4d4f42]" href={href} key={href}>
+              {label}
+            </Link>
+          ))}
+        </div>
       </SectionCard>
 
       <SectionCard

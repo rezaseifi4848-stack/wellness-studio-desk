@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { WellnessHeader } from "@/components/ui/WellnessHeader";
 import { SafetyNotice } from "@/components/ui/SafetyNotice";
-import { appRoutes } from "@/lib/routes";
+import { routeGroups } from "@/lib/routes";
 import { brand } from "@/lib/content";
 
 type PremiumPageShellProps = {
@@ -30,15 +30,22 @@ export function PremiumPageShell({ children }: PremiumPageShellProps) {
             </div>
           </Link>
 
-          <div className="flex gap-2 overflow-x-auto pb-1 md:max-w-3xl md:flex-wrap md:justify-end md:overflow-visible md:pb-0">
-            {appRoutes.slice(0, 11).map((route) => (
-              <Link
-                className="calm-focus shrink-0 rounded-full px-4 py-2.5 text-sm text-[#615d51] transition hover:bg-[var(--sage-soft)] hover:text-[#3f4935]"
-                href={route.href}
-                key={route.href}
-              >
-                {route.shortLabel}
-              </Link>
+          <div className="grid gap-3 md:max-w-4xl">
+            {routeGroups.map((group) => (
+              <div className="flex items-center gap-2 overflow-x-auto pb-1 md:flex-wrap md:justify-end md:overflow-visible md:pb-0" key={group.title}>
+                <span className="shrink-0 rounded-full bg-[rgba(215,192,154,0.22)] px-3 py-2 text-xs font-semibold text-[#7a6d51]">
+                  {group.title}
+                </span>
+                {group.routes.map((route) => (
+                  <Link
+                    className="calm-focus shrink-0 rounded-full px-4 py-2.5 text-sm text-[#615d51] transition hover:bg-[var(--sage-soft)] hover:text-[#3f4935]"
+                    href={route.href}
+                    key={`${group.title}-${route.shortLabel}`}
+                  >
+                    {route.shortLabel}
+                  </Link>
+                ))}
+              </div>
             ))}
           </div>
         </nav>
