@@ -10,6 +10,7 @@ const modules = [
   "now-engine",
   "engagement-engine",
   "affirmation-challenge",
+  "ai-brain-settings",
   "reels",
   "captions",
   "comments",
@@ -34,6 +35,8 @@ function normalize(body: Record<string, unknown>): LiveGenerateRequest {
     posterStyle: typeof body.posterStyle === "string" ? body.posterStyle : undefined,
     userSeedText: typeof body.userSeedText === "string" ? body.userSeedText : undefined,
     improveAction: typeof body.improveAction === "string" ? body.improveAction : undefined,
+    brainMode: typeof body.brainMode === "string" ? body.brainMode : "premium",
+    strictPublishReady: typeof body.strictPublishReady === "boolean" ? body.strictPublishReady : true,
   };
 }
 
@@ -50,6 +53,11 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET() {
-  const result = await generateLiveContent({ module: "morning-studio", channel: "@yoga_saeedeh" });
+  const result = await generateLiveContent({
+    module: "morning-studio",
+    channel: "@yoga_saeedeh",
+    brainMode: "premium",
+    strictPublishReady: true,
+  });
   return NextResponse.json(result);
 }

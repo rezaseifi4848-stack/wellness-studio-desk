@@ -1,6 +1,7 @@
 export const appRoutes = [
   { href: "/", label: "استودیوی آرامش و یوگا", shortLabel: "خانه" },
   { href: "/morning-studio", label: "صبح سعیده", shortLabel: "صبح سعیده" },
+  { href: "/ai-brain-settings", label: "تنظیمات مغز سعیده", shortLabel: "مغز سعیده" },
   { href: "/now-engine", label: "الان چی کار کنم؟", shortLabel: "الان چی کار کنم؟" },
   { href: "/morning-studio", label: "بسته کامل امروز", shortLabel: "بسته کامل امروز" },
   { href: "/poster-studio", label: "استودیو پوستر سعیده", shortLabel: "استودیو پوستر" },
@@ -87,6 +88,7 @@ export const routeGroups = [
     title: "گروه روزانه",
     routes: [
       { href: "/morning-studio", shortLabel: "صبح سعیده" },
+      { href: "/ai-brain-settings", shortLabel: "مغز سعیده" },
       { href: "/now-engine", shortLabel: "الان چی کار کنم؟" },
       { href: "/morning-studio", shortLabel: "بسته کامل امروز" },
       { href: "/poster-studio", shortLabel: "استودیو پوستر" },

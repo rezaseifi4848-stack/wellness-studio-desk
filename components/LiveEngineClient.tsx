@@ -13,16 +13,28 @@ type LiveEngineClientProps = {
 };
 
 type GenerateResult = {
-  status?: {
-    aiActive?: boolean;
-    searchActive?: boolean;
-    outputMode?: string;
-    lastGenerated?: string;
-    source?: string;
-    warning?: string;
-  };
+  engineStatus?: EngineStatus;
+  status?: EngineStatus;
+  qualityScore?: { total?: number; action?: string };
   quality?: { total?: number; action?: string };
+  safety?: { status?: string; disclaimer?: string };
+  outputs?: Record<string, unknown>;
   output?: Record<string, unknown>;
+  improveActions?: string[];
+};
+
+type EngineStatus = {
+  aiActive?: boolean;
+  searchActive?: boolean;
+  openAiKeyActive?: boolean;
+  openAiModel?: string;
+  liveAiEnabled?: boolean;
+  liveSearchEnabled?: boolean;
+  outputMode?: string;
+  lastGenerated?: string;
+  source?: string;
+  warning?: string;
+  warnings?: string[];
 };
 
 const improveActions = [
@@ -60,7 +72,7 @@ export function LiveEngineClient({ module, title, topic, outputType = "daily-pac
   const [result, setResult] = useState<GenerateResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [seed, setSeed] = useState(topic || "");
-  const fullText = useMemo(() => stringify(result?.output || {}), [result]);
+  const fullText = useMemo(() => stringify(result?.outputs || result?.output || {}), [result]);
 
   async function generate(improveAction?: string) {
     setLoading(true);
@@ -80,6 +92,8 @@ export function LiveEngineClient({ module, title, topic, outputType = "daily-pac
         meditationFocus: "مدیتیشن به‌عنوان قلب برند",
         posterStyle,
         improveAction,
+        brainMode: "premium",
+        strictPublishReady: true,
       }),
     });
     setResult(await response.json());
@@ -122,6 +136,7 @@ export function LiveEngineClient({ module, title, topic, outputType = "daily-pac
         </div>
         <p className="text-sm leading-7 text-[var(--ink-soft)]">
           امتیاز کیفیت: {result?.quality?.total ?? "-"} / 10
+          {result?.safety?.status ? ` | وضعیت ایمنی: ${result.safety.status === "safe" ? "امن" : "نیازمند بررسی"}` : ""}
         </p>
         <pre className="max-h-[760px] overflow-auto rounded-[1.5rem] bg-[#111111] p-5 text-left text-xs leading-6 text-[#f8f6f1] [direction:ltr]">
           {loading ? "در حال تولید..." : result ? fullText : "برای ساخت خروجی، روی «تولید با موتور زنده» بزن. اگر کلیدها روی Render تنظیم نشده باشند، خروجی با برچسب «حالت آفلاین محدود» ساخته می‌شود."}
