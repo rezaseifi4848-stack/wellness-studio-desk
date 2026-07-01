@@ -73,6 +73,11 @@ const mainActions: {
 
 const operationalModules = [
   {
+    title: "استاد زنده سعیده",
+    body: "همه‌چیز برای ریلز، کپشن، مدیتیشن، کلاس، کاور، برند و فروش نرم؛ با Research Mode و کنترل ایمنی.",
+    href: "/mentor/saeedeh",
+  },
+  {
     title: "موتور جذب مخاطب",
     body: "برای ساختن ارتباط واقعی با مخاطب؛ hook همدلانه، مثال ساده، کپشن، استوری و CTA نرم.",
     href: "/audience-attraction",
@@ -128,6 +133,7 @@ export default function DashboardPage() {
         <div className="flex flex-wrap gap-3">
           {[
             ["/morning-studio", "باز کردن صبح سعیده"],
+            ["/mentor/saeedeh", "استاد زنده سعیده"],
             ["/poster-studio", "استودیو پوستر"],
             ["/bale-channel", "موتور کانال بله"],
             ["/meditation-command-center", "مرکز مدیتیشن"],
