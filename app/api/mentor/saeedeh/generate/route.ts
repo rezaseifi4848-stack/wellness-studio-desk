@@ -12,24 +12,24 @@ function stringValue(value: unknown, fallback: string) {
 function normalize(body: Record<string, unknown>): SaeedehMentorInput {
   const researchMode = researchModes.includes(body.researchMode as ResearchMode)
     ? (body.researchMode as ResearchMode)
-    : "OFFLINE";
+    : "FREE_FIRST";
   const sensitivity = sensitivities.includes(body.sensitivity as SensitivityLevel)
     ? (body.sensitivity as SensitivityLevel)
     : "عمومی";
 
   return {
-    task: stringValue(body.task, "ریلز امشب"),
+    task: stringValue(body.task, "Daily pack"),
     platform: stringValue(body.platform, "Reel"),
-    goal: stringValue(body.goal, "آرام‌سازی"),
-    audience: stringValue(body.audience, "مخاطب پیج اینستاگرام"),
-    topic: stringValue(body.topic, ""),
-    mood: stringValue(body.mood, ""),
-    duration: stringValue(body.duration, ""),
+    goal: stringValue(body.goal, "Calm"),
+    audience: stringValue(body.audience, "Audience"),
+    topic: stringValue(body.topic, "Daily calm content"),
+    mood: stringValue(body.mood, "Warm and calm"),
+    duration: stringValue(body.duration, "45 seconds"),
     manualSource: stringValue(body.manualSource, ""),
-    cta: stringValue(body.cta, ""),
-    safetyLimit: stringValue(body.safetyLimit, ""),
+    cta: stringValue(body.cta, "Save this post."),
+    safetyLimit: stringValue(body.safetyLimit, "Educational content."),
     researchMode,
-    providerMode: stringValue(body.providerMode, "auto"),
+    providerMode: stringValue(body.providerMode, "FREE_FIRST"),
     sensitivity,
     allowExternalForSensitive: body.allowExternalForSensitive === true,
   };
@@ -49,16 +49,16 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   const result = await generateSaeedehMentor({
-    task: "ریلز امشب",
+    task: "Daily pack",
     platform: "Reel",
-    goal: "آرام‌سازی",
-    audience: "مخاطب پیج اینستاگرام",
-    topic: "مدیتیشن خواب برای امشب",
-    mood: "نرم، زنانه، آرام",
-    duration: "۶۰ ثانیه",
-    cta: "ذخیره کن برای قبل خواب",
-    researchMode: "OFFLINE",
-    providerMode: "auto",
+    goal: "Calm",
+    audience: "Audience",
+    topic: "Daily calm content",
+    mood: "Warm and calm",
+    duration: "45 seconds",
+    cta: "Save this post.",
+    researchMode: "FREE_FIRST",
+    providerMode: "FREE_FIRST",
     sensitivity: "عمومی",
   });
   return NextResponse.json(result);
