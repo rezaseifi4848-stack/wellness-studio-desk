@@ -1,21 +1,6 @@
-import { AppShell } from "@/components/AppShell";
+import Link from "next/link";
 import { SaeedehMasterMentor } from "@/components/SaeedehMasterMentor";
-import { SafetyNotice } from "@/components/ui/SafetyNotice";
 
 export default function SaeedehMentorPage() {
-  return (
-    <AppShell>
-      <section className="soft-panel cream-to-white grid gap-5 p-8 md:p-10">
-        <p className="text-sm font-semibold text-[#8a7a55]">Saeedeh Master Mentor Live</p>
-        <h1 className="text-5xl font-semibold leading-[1.6] text-[#4d4f42] md:text-6xl">
-          استاد زنده سعیده
-        </h1>
-        <p className="max-w-4xl text-xl leading-10 text-[var(--ink-soft)]">
-          منتور یوگا، مدیتیشن، محتوا، برند، ریلز، کاور، کلاس و فروش نرم
-        </p>
-      </section>
-      <SaeedehMasterMentor />
-      <SafetyNotice />
-    </AppShell>
-  );
+  return <main className="premium-gradient min-h-screen"><div className="mx-auto grid max-w-7xl gap-8 px-4 py-6 sm:px-6 lg:py-10"><nav className="soft-panel flex flex-col gap-4 p-5 md:flex-row md:items-center md:justify-between"><Link href="/" className="flex items-center gap-3"><img src="/logo-yoga-saeedeh.svg" alt="Saeedeh" className="h-14 w-14" /><div><p className="text-xl font-semibold text-[#4d4f42]">Yoga Ba Saeedeh</p><p className="text-xs text-[var(--ink-soft)]">Live Engine</p></div></Link><div className="flex flex-wrap gap-2"><Link className="studio-button bg-[#6d755f] px-5 py-3 text-sm font-semibold text-white" href="/">Home</Link><Link className="studio-button bg-[var(--warm-white)] px-5 py-3 text-sm font-semibold text-[#4d4f42]" href="/bale-channel">Bale</Link></div></nav><section className="soft-panel cream-to-white grid gap-5 p-8 md:p-10"><p className="text-sm font-semibold text-[#8a7a55]">Saeedeh Live Engine</p><h1 className="text-4xl font-semibold leading-[1.7] text-[#4d4f42] md:text-6xl">Saeedeh Mentor</h1><p className="max-w-4xl text-lg leading-10 text-[var(--ink-soft)]">Daily content workspace.</p></section><SaeedehMasterMentor /></div></main>;
 }
