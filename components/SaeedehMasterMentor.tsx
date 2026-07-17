@@ -366,7 +366,7 @@ export function SaeedehMasterMentor() {
               <p className="mt-2"><b>اقدام بعدی:</b> {result.output?.nextAction}</p>
               <p className="mt-2"><b>نکته ایمنی:</b> {result.output?.safetyNote}</p>
             </div>`r`n            <ReadableOutput output={result.output?.mainOutput} />
-            <div className="flex flex-wrap items-center gap-3">
+            <ReadableOutput output={result.output?.mainOutput} />`r`n            <div className="flex flex-wrap items-center gap-3">
               <CopyButton text={outputText} />
               <span className="text-sm leading-8 text-[var(--ink-soft)]">
                 وضعیت تحقیق: {result.output?.researchStatusAndLimits?.limitations}
@@ -383,5 +383,6 @@ export function SaeedehMasterMentor() {
     </div>
   );
 }
+
 
 
