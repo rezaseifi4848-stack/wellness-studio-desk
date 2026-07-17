@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useMemo, useState } from "react";
 import { SectionCard } from "@/components/ui/SectionCard";
@@ -152,6 +152,38 @@ function CopyButton({ text }: { text: string }) {
   );
 }
 
+
+function ReadableValue({ value }: { value: unknown }) {
+  if (Array.isArray(value)) {
+    return (
+      <ul className="grid gap-2 text-sm leading-8 text-[var(--ink-soft)]">
+        {value.map((item, index) => (
+          <li className="rounded-2xl bg-white/65 px-4 py-2" key={index}>{typeof item === "object" ? JSON.stringify(item, null, 2) : String(item)}</li>
+        ))}
+      </ul>
+    );
+  }
+
+  if (value && typeof value === "object") {
+    return <ReadableOutput output={value as Record<string, unknown>} compact />;
+  }
+
+  return <p className="whitespace-pre-line text-sm leading-8 text-[var(--ink-soft)]">{String(value || "-")}</p>;
+}
+
+function ReadableOutput({ output, compact = false }: { output?: Record<string, unknown>; compact?: boolean }) {
+  if (!output) return null;
+  return (
+    <div className={`grid gap-4 ${compact ? "" : "md:grid-cols-2"}`}>
+      {Object.entries(output).map(([key, value]) => (
+        <article className="rounded-[1.5rem] bg-white/75 p-5 shadow-[0_16px_45px_rgba(97,91,70,0.06)]" key={key}>
+          <h4 className="mb-3 text-lg font-semibold text-[#4d4f42]">{key}</h4>
+          <ReadableValue value={value} />
+        </article>
+      ))}
+    </div>
+  );
+}
 function StatusPill({ label, active }: { label: string; active?: boolean }) {
   return (
     <span className={`rounded-full px-4 py-2 text-xs font-semibold ${active ? "bg-[rgba(168,184,160,0.32)] text-[#4d5a44]" : "bg-white/70 text-[#8a7a55]"}`}>
@@ -173,8 +205,8 @@ export function SaeedehMasterMentor() {
   const [manualSource, setManualSource] = useState("");
   const [cta, setCta] = useState("ذخیره کن برای قبل خواب و برای یک دوست بفرست.");
   const [safetyLimit, setSafetyLimit] = useState("");
-  const [researchMode, setResearchMode] = useState("OFFLINE");
-  const [providerMode, setProviderMode] = useState("auto");
+  const [researchMode, setResearchMode] = useState("PREMIUM");
+  const [providerMode, setProviderMode] = useState("auto-live");
   const [sensitivity, setSensitivity] = useState("عمومی");
   const [allowExternalForSensitive, setAllowExternalForSensitive] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -281,7 +313,7 @@ export function SaeedehMasterMentor() {
           <TextField label="حال و هوای محتوا" onChange={setMood} value={mood} />
           <TextField label="مدت ویدیو یا مدیتیشن" onChange={setDuration} value={duration} />
           <TextField label="CTA موردنظر" onChange={setCta} value={cta} />
-          <TextField label="Provider Mode" onChange={setProviderMode} value={providerMode} />
+          <SelectField label="Provider Mode" onChange={setProviderMode} options={["auto-live", "openai", "auto", "local"]} value={providerMode} />
           <TextField label="محدودیت یا نکته ایمنی" onChange={setSafetyLimit} placeholder="مثلاً مبتدی، درد زانو، بارداری..." value={safetyLimit} />
         </div>
         <TextField
@@ -333,16 +365,14 @@ export function SaeedehMasterMentor() {
               <p className="mt-3"><b>CTA:</b> {result.output?.cta}</p>
               <p className="mt-2"><b>اقدام بعدی:</b> {result.output?.nextAction}</p>
               <p className="mt-2"><b>نکته ایمنی:</b> {result.output?.safetyNote}</p>
-            </div>
+            </div>`r`n            <ReadableOutput output={result.output?.mainOutput} />
             <div className="flex flex-wrap items-center gap-3">
               <CopyButton text={outputText} />
               <span className="text-sm leading-8 text-[var(--ink-soft)]">
                 وضعیت تحقیق: {result.output?.researchStatusAndLimits?.limitations}
               </span>
             </div>
-            <pre className="max-h-[820px] overflow-auto rounded-[1.5rem] bg-[#2f332b] p-5 text-left text-xs leading-6 text-[#f8f6f1] [direction:ltr]">
-              {outputText}
-            </pre>
+            <details className="rounded-[1.5rem] bg-[#2f332b] p-5 text-[#f8f6f1]">`r`n              <summary className="cursor-pointer text-sm font-semibold">نمایش JSON کامل</summary>`r`n              <pre className="mt-4 max-h-[520px] overflow-auto text-left text-xs leading-6 [direction:ltr]">{outputText}</pre>`r`n            </details>
           </div>
         ) : (
           <p className="rounded-[1.5rem] bg-white/75 p-5 text-sm leading-8 text-[var(--ink-soft)]">
@@ -353,3 +383,5 @@ export function SaeedehMasterMentor() {
     </div>
   );
 }
+
+
