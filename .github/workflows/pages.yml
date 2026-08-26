@@ -28,6 +28,8 @@ jobs:
       - name: Build static artifact
         run: mkdir -p dist/esmiyar && cp esmiyar/index.html esmiyar/app.js esmiyar/engine.js esmiyar/names.js esmiyar/styles.css dist/esmiyar/
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
