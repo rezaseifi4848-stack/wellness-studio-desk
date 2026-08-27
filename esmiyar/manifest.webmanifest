@@ -1,0 +1,32 @@
+{
+  "name": "اسم‌یار سعیده",
+  "short_name": "اسم‌یار",
+  "description": "سامانه فارسی تحلیل، محاسبات و پیشنهاد نام",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": [
+    "window-controls-overlay",
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "any",
+  "background_color": "#06111b",
+  "theme_color": "#07111c",
+  "lang": "fa",
+  "dir": "rtl",
+  "categories": [
+    "education",
+    "lifestyle",
+    "utilities"
+  ],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
