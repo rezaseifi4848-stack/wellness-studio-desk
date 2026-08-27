@@ -1,15 +1,24 @@
-export const ABJAD={ا:1,آ:1,أ:1,إ:1,ب:2,ج:3,د:4,ه:5,ة:5,و:6,ؤ:6,ز:7,ح:8,ط:9,ی:10,ي:10,ئ:10,ک:20,ك:20,ل:30,م:40,ن:50,س:60,ع:70,ف:80,ص:90,ق:100,ر:200,ش:300,ت:400,ث:500,خ:600,ذ:700,ض:800,ظ:900,غ:1000};
-export const normalize=s=>String(s||'').trim().replace(/[\u064B-\u065F\u0670ـ\s‌]/g,'');
+export const ABJAD={ا:1,آ:1,أ:1,إ:1,ب:2,ج:3,د:4,ه:5,ة:5,و:6,ز:7,ح:8,ط:9,ی:10,ي:10,ک:20,ك:20,ل:30,م:40,ن:50,س:60,ع:70,ف:80,ص:90,ق:100,ر:200,ش:300,ت:400,ث:500,خ:600,ذ:700,ض:800,ظ:900,غ:1000};
+export const normalize=s=>String(s||'').trim().replace(/[\u064B-\u065F\u0670ـ\s‌]/g,'').replace(/گ/g,'ک').replace(/چ/g,'ج').replace(/پ/g,'ب').replace(/ژ/g,'ز');
 export function abjad(text){return [...normalize(text)].reduce((n,c)=>n+(ABJAD[c]||0),0)}
+const pending=n=>Array(n).fill('در تصاویر ارسالی ذکر نشده / نیازمند تأیید');
 export const defaultRules=[
- {id:'trend',title:'روند شخص',divisor:3,inputs:['name','mother'],labels:['ثابت','نزولی','صعودی'],status:'فعال'},
- {id:'step',title:'قدم',divisor:3,inputs:['name','father'],labels:['خنثی/ثابت','بدقدم','خوش‌قدم'],status:'فعال'},
- {id:'couple',title:'تفاهم زوجین',divisor:5,inputs:['name','spouse'],labels:['عشق آسمانی','ضعیف/ناسازگار','تفاهم پایین','دوست داشتن','جذابیت و علاقه'],status:'فعال'},
- {id:'health',title:'سلامت زوجین',divisor:9,offset:32,inputs:['name','spouse'],labels:Array(9).fill('نیازمند تکمیل قانون'),status:'تفسیر سنتی؛ غیرپزشکی'},
- {id:'surname',title:'اسم + فامیل',divisor:3,inputs:['name','surname'],labels:Array(3).fill('نیازمند تکمیل قانون'),status:'در انتظار تکمیل قانون'},
- {id:'partnership',title:'شراکت',divisor:9,offset:32,inputs:['name','partner'],labels:['ریسک بالا','نیازمند تکمیل قانون','مساعد','نیازمند تکمیل قانون','مساعد','زیان برابر','مساعد','ریسک بالا','مساعد'],status:'تفسیر سنتی'},
- {id:'place',title:'محل سکونت / کار',divisor:3,inputs:['name','place'],labels:['خنثی','نامطلوب','بهترین حالت'],status:'فعال',numericInputs:['place']},
- {id:'business',title:'کسب‌وکار',divisor:3,inputs:['name','business'],labels:Array(3).fill('نیازمند تکمیل قانون'),status:'در انتظار فرمول نهایی'}];
-function inputValue(rule,key,text){if((rule.numericInputs||[]).includes(key)){const n=Number(String(text).replace(/[^0-9۰-۹]/g,'').replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)));return Number.isFinite(n)?n:0}return abjad(text)}
-export function runRule(rule,values){const parts=rule.inputs.map(k=>({key:k,text:values[k]||'',value:inputValue(rule,k,values[k])}));if(parts.some(x=>!x.text))return null;const total=parts.reduce((n,x)=>n+x.value,Number(rule.offset)||0);const remainder=total%Number(rule.divisor);return {ruleId:rule.id,title:rule.title,parts,total,divisor:Number(rule.divisor),remainder,label:rule.labels[remainder]??'نیازمند بررسی',status:rule.status}}
-export function analyze(values,rules=defaultRules){return rules.map(r=>runRule(r,values)).filter(Boolean)}
+ {id:'trend',title:'روند شخص',divisor:3,inputs:['name','mother'],labels:['ثابت','نزولی','صعودی'],status:'فعال · عین مرجع',source:'مرجع دیجیتال ص۵؛ جزوه 14521',sourcePage:'5 / 14521'},
+ {id:'vibration',title:'ارتعاش / گروه اسم',divisor:4,inputs:['name','mother'],labels:['عالی (اشرافی)','ضعیف (حادثه‌ساز)','متوسط (هنری)','خوب (عرفانی)'],status:'فعال · عین مرجع',source:'مرجع دیجیتال ص۵؛ جزوه 14520-14531',sourcePage:'5 / 14520-14531'},
+ {id:'step',title:'قدم فرد',divisor:3,inputs:['name','father'],labels:['خنثی‌قدم','بدقدم','خوش‌قدم'],status:'فعال · عین مرجع',source:'مرجع دیجیتال ص۵',sourcePage:'5'},
+ {id:'surname',title:'هماهنگی اسم + فامیل',divisor:3,inputs:['name','surname'],labels:['هماهنگی متوسط','هماهنگی ضعیف','هماهنگی عالی'],status:'فعال · عین مرجع',source:'مرجع دیجیتال ص۶؛ جزوه 14532',sourcePage:'6 / 14532'},
+ {id:'couple',title:'تفاهم زوجین',divisor:5,inputs:['manMother','man','womanMother','woman'],labels:['یکی از طرفین مخالف هستند','با هم خوب هستند و زندگی می‌کنند','جر و بحث زیاد است','با هم خوب هستند و زندگی می‌کنند','امکان طلاق یا طلاق عاطفی هست'],status:'فعال · عین مرجع با یادداشت تعارض «۵»',source:'مرجع دیجیتال ص۶؛ متن عددهای ۱،۳،۵ را خوب دانسته ولی باقیمانده ۵ در تقسیم بر ۵ ممکن نیست',sourcePage:'6'},
+ {id:'coupleStep',title:'قدم زوجین',divisor:3,inputs:['woman','man'],labels:['خنثی‌قدم','بدقدم','خوش‌قدم'],status:'فعال · عین مرجع',source:'مرجع دیجیتال ص۷',sourcePage:'7'},
+ {id:'health',title:'سلامت زوجین (تفسیر سنتی)',divisor:9,offset:33,inputs:['woman','man'],labels:['طبق متن جزوه: مرد بیمار می‌شود','طبق متن جزوه: خانم بیمار می‌شود','از نظر سلامت مثبت','طبق متن جزوه: خانم بیمار می‌شود','از نظر سلامت مثبت','طبق متن جزوه: هر دو نفر بیمار می‌شوند','از نظر سلامت مثبت','طبق متن جزوه: مرد بیمار می‌شود','از نظر سلامت مثبت'],status:'تفسیر سنتی/غیرپزشکی · عین مرجع؛ تعارض ۹/۰ ثبت شده',source:'مرجع دیجیتال ص۷؛ جزوه 14535-14536',sourcePage:'7 / 14535-14536'},
+ {id:'partnership',title:'شراکت مرحله دوم',divisor:9,offset:33,inputs:['name','partner'],labels:pending(9),status:'فرمول ثبت‌شده؛ تفسیر در تصاویر ذکر نشده',source:'مرجع دیجیتال ص۶؛ مرحله اول: ارتعاش و روند شریک، مرحله دوم +۳۳ ÷۹',sourcePage:'6'},
+ {id:'groupName',title:'بررسی نام گروه/برند',divisor:3,inputs:['business'],labels:pending(3),status:'فرمول ثبت‌شده؛ برچسب نتیجه ذکر نشده',source:'مرجع دیجیتال ص۷',sourcePage:'7'},
+ {id:'groupPerson',title:'هماهنگی شخص با گروه/شرکت',divisor:3,inputs:['name','business'],labels:pending(3),status:'فرمول ثبت‌شده؛ برچسب نتیجه ذکر نشده',source:'مرجع دیجیتال ص۷',sourcePage:'7'},
+ {id:'residencePostcode',title:'محل سکونت · کدپستی',divisor:3,inputs:['name','postcode3'],labels:pending(3),status:'فرمول ثبت‌شده؛ برچسب نتیجه ذکر نشده',numericInputs:['postcode3'],source:'مرجع دیجیتال ص۷-۸',sourcePage:'7-8'},
+ {id:'residencePlaque',title:'محل سکونت · پلاک + مالک',divisor:3,inputs:['plaque','owner'],labels:pending(3),status:'فرمول ثبت‌شده؛ برچسب نتیجه ذکر نشده',numericInputs:['plaque'],source:'مرجع دیجیتال ص۷-۸؛ با پیاده‌سازی خام صفحه 14541 تعارض تفسیری دارد',sourcePage:'7-8 / 14541'},
+ {id:'workPostcode',title:'محل کار · کدپستی',divisor:3,inputs:['name','workPostcode3'],labels:pending(3),status:'فرمول ثبت‌شده؛ برچسب نتیجه ذکر نشده',numericInputs:['workPostcode3'],source:'مرجع دیجیتال ص۸',sourcePage:'8'},
+ {id:'migration',title:'مهاجرت',divisor:4,offset:65,inputs:['name','mother','placeName'],labels:['عالی','ضعیف','متوسط','خوب'],status:'فعال · عین مرجع',source:'مرجع دیجیتال ص۸',sourcePage:'8'}
+];
+function faDigitsToEn(s){return String(s).replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d))}
+function inputValue(rule,key,text){if((rule.numericInputs||[]).includes(key)){const clean=faDigitsToEn(String(text)).replace(/[^0-9.-]/g,'');const n=Number(clean);return Number.isFinite(n)?n:0}return abjad(text)}
+export function runRule(rule,values){if(!rule)return null;const parts=rule.inputs.map(k=>({key:k,text:values[k]||'',value:inputValue(rule,k,values[k])}));if(parts.some(x=>!String(x.text).trim()))return null;const offset=Number(rule.offset)||0;const total=parts.reduce((n,x)=>n+x.value,offset);const divisor=Number(rule.divisor);const remainder=((total%divisor)+divisor)%divisor;return {ruleId:rule.id,title:rule.title,parts,total,offset,divisor,remainder,fraction:remainder/divisor,label:rule.labels?.[remainder]??'در تصاویر ارسالی ذکر نشده',status:rule.status,source:rule.source,sourcePage:rule.sourcePage}}
+export function analyze(values,rules=defaultRules){return rules.filter(r=>['trend','vibration','step','surname','partnership','groupName','groupPerson','migration'].includes(r.id)).map(r=>runRule(r,values)).filter(Boolean)}
