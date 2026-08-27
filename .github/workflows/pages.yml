@@ -22,11 +22,11 @@ jobs:
         with:
           node-version: 22
       - name: Typecheck JavaScript
-        run: node --check esmiyar/app.js && node --check esmiyar/engine.js && node --check esmiyar/names.js && node --check esmiyar/knowledge.js
+        run: node --check esmiyar/app.js && node --check esmiyar/engine.js && node --check esmiyar/names.js && node --check esmiyar/knowledge.js && node --check esmiyar/sw.js
       - name: Test Abjad engine
         run: node --test esmiyar/engine.test.mjs
       - name: Build static artifact
-        run: mkdir -p dist/esmiyar && cp esmiyar/index.html esmiyar/app.js esmiyar/engine.js esmiyar/names.js esmiyar/knowledge.js esmiyar/styles.css dist/esmiyar/
+        run: mkdir -p dist/esmiyar && cp esmiyar/index.html esmiyar/app.js esmiyar/engine.js esmiyar/names.js esmiyar/knowledge.js esmiyar/styles.css esmiyar/manifest.webmanifest esmiyar/sw.js esmiyar/icon.svg dist/esmiyar/
       - uses: actions/configure-pages@v5
         with:
           enablement: true
